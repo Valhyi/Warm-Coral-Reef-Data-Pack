@@ -1,0 +1,29 @@
+name: Build Mod Jar
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: Build jar
+        run: |
+          mkdir -p dist
+          zip -r dist/warm_coral_reef-1.0.0.jar \
+            META-INF \
+            data \
+            pack.mcmeta \
+            -x "*.DS_Store"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: warm_coral_reef-1.0.0
+          path: dist/warm_coral_reef-1.0.0.jar
